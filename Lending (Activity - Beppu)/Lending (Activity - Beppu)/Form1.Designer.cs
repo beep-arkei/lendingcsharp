@@ -67,6 +67,12 @@
             this.label11 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.mainMenu = new System.Windows.Forms.TabControl();
+            this.lendeeListView = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPage3.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -127,7 +133,7 @@
             this.button1.FlatAppearance.BorderSize = 0;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(87, 616);
+            this.button1.Location = new System.Drawing.Point(916, 629);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 5;
@@ -141,7 +147,7 @@
             this.button2.FlatAppearance.BorderSize = 0;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(427, 616);
+            this.button2.Location = new System.Drawing.Point(51, 629);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(116, 23);
             this.button2.TabIndex = 6;
@@ -163,7 +169,7 @@
             this.MobileTextBox.Location = new System.Drawing.Point(126, 93);
             this.MobileTextBox.Name = "MobileTextBox";
             this.MobileTextBox.Size = new System.Drawing.Size(362, 22);
-            this.MobileTextBox.TabIndex = 1;
+            this.MobileTextBox.TabIndex = 2;
             this.MobileTextBox.TextChanged += new System.EventHandler(this.MobileTextBox_TextChanged);
             // 
             // NameTextBox
@@ -172,7 +178,7 @@
             this.NameTextBox.Location = new System.Drawing.Point(126, 41);
             this.NameTextBox.Name = "NameTextBox";
             this.NameTextBox.Size = new System.Drawing.Size(362, 22);
-            this.NameTextBox.TabIndex = 1;
+            this.NameTextBox.TabIndex = 0;
             // 
             // MessengerTextBox
             // 
@@ -180,7 +186,7 @@
             this.MessengerTextBox.Location = new System.Drawing.Point(126, 119);
             this.MessengerTextBox.Name = "MessengerTextBox";
             this.MessengerTextBox.Size = new System.Drawing.Size(362, 22);
-            this.MessengerTextBox.TabIndex = 1;
+            this.MessengerTextBox.TabIndex = 3;
             // 
             // ComakerTextBox
             // 
@@ -188,7 +194,7 @@
             this.ComakerTextBox.Location = new System.Drawing.Point(126, 145);
             this.ComakerTextBox.Name = "ComakerTextBox";
             this.ComakerTextBox.Size = new System.Drawing.Size(362, 22);
-            this.ComakerTextBox.TabIndex = 1;
+            this.ComakerTextBox.TabIndex = 4;
             // 
             // label6
             // 
@@ -219,7 +225,7 @@
             this.SaveButton.Location = new System.Drawing.Point(25, 322);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(75, 23);
-            this.SaveButton.TabIndex = 2;
+            this.SaveButton.TabIndex = 9;
             this.SaveButton.Text = "Save";
             this.SaveButton.UseVisualStyleBackColor = false;
             this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
@@ -296,7 +302,7 @@
             this.SearchTextBox.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SearchTextBox.Location = new System.Drawing.Point(126, 43);
             this.SearchTextBox.Name = "SearchTextBox";
-            this.SearchTextBox.Size = new System.Drawing.Size(362, 22);
+            this.SearchTextBox.Size = new System.Drawing.Size(409, 22);
             this.SearchTextBox.TabIndex = 1;
             // 
             // ClearButton
@@ -308,7 +314,7 @@
             this.ClearButton.Location = new System.Drawing.Point(25, 351);
             this.ClearButton.Name = "ClearButton";
             this.ClearButton.Size = new System.Drawing.Size(75, 23);
-            this.ClearButton.TabIndex = 7;
+            this.ClearButton.TabIndex = 10;
             this.ClearButton.Text = "Clear";
             this.ClearButton.UseVisualStyleBackColor = false;
             this.ClearButton.Click += new System.EventHandler(this.ClearButton_Click);
@@ -325,6 +331,7 @@
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
+            this.tabPage3.Controls.Add(this.lendeeListView);
             this.tabPage3.Controls.Add(this.SearchTextBox);
             this.tabPage3.Controls.Add(this.SearchButton);
             this.tabPage3.Controls.Add(this.LabelLendee);
@@ -383,7 +390,7 @@
             this.ConfirmPasswordTextBox.Name = "ConfirmPasswordTextBox";
             this.ConfirmPasswordTextBox.PasswordChar = '*';
             this.ConfirmPasswordTextBox.Size = new System.Drawing.Size(362, 22);
-            this.ConfirmPasswordTextBox.TabIndex = 10;
+            this.ConfirmPasswordTextBox.TabIndex = 8;
             this.ConfirmPasswordTextBox.TextChanged += new System.EventHandler(this.ConfirmPasswordTextBox_TextChanged);
             // 
             // PasswordTextBox
@@ -393,7 +400,7 @@
             this.PasswordTextBox.Name = "PasswordTextBox";
             this.PasswordTextBox.PasswordChar = '*';
             this.PasswordTextBox.Size = new System.Drawing.Size(362, 22);
-            this.PasswordTextBox.TabIndex = 10;
+            this.PasswordTextBox.TabIndex = 7;
             this.PasswordTextBox.TextChanged += new System.EventHandler(this.PasswordTextBox_TextChanged);
             // 
             // SourceTextBox
@@ -402,7 +409,7 @@
             this.SourceTextBox.Location = new System.Drawing.Point(126, 197);
             this.SourceTextBox.Name = "SourceTextBox";
             this.SourceTextBox.Size = new System.Drawing.Size(362, 22);
-            this.SourceTextBox.TabIndex = 9;
+            this.SourceTextBox.TabIndex = 6;
             // 
             // IncomeTextBox
             // 
@@ -410,7 +417,7 @@
             this.IncomeTextBox.Location = new System.Drawing.Point(126, 171);
             this.IncomeTextBox.Name = "IncomeTextBox";
             this.IncomeTextBox.Size = new System.Drawing.Size(362, 22);
-            this.IncomeTextBox.TabIndex = 9;
+            this.IncomeTextBox.TabIndex = 5;
             this.IncomeTextBox.TextChanged += new System.EventHandler(this.IncomeTextBox_TextChanged);
             // 
             // label14
@@ -507,7 +514,51 @@
             this.mainMenu.Name = "mainMenu";
             this.mainMenu.SelectedIndex = 0;
             this.mainMenu.Size = new System.Drawing.Size(944, 441);
-            this.mainMenu.TabIndex = 8;
+            this.mainMenu.TabIndex = 5;
+            // 
+            // lendeeListView
+            // 
+            this.lendeeListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2,
+            this.columnHeader3,
+            this.columnHeader4,
+            this.columnHeader5});
+            this.lendeeListView.Location = new System.Drawing.Point(32, 82);
+            this.lendeeListView.Name = "lendeeListView";
+            this.lendeeListView.Size = new System.Drawing.Size(503, 300);
+            this.lendeeListView.TabIndex = 12;
+            this.lendeeListView.UseCompatibleStateImageBehavior = false;
+            this.lendeeListView.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Code";
+            this.columnHeader1.Width = 91;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "Name";
+            this.columnHeader2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.columnHeader2.Width = 91;
+            // 
+            // columnHeader3
+            // 
+            this.columnHeader3.Text = "Balance";
+            this.columnHeader3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.columnHeader3.Width = 91;
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "Mobile No.";
+            this.columnHeader4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.columnHeader4.Width = 93;
+            // 
+            // columnHeader5
+            // 
+            this.columnHeader5.Text = "Monthly Income";
+            this.columnHeader5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.columnHeader5.Width = 116;
             // 
             // Form1
             // 
@@ -580,6 +631,12 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label passwordMatchLabel;
+        private System.Windows.Forms.ListView lendeeListView;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.ColumnHeader columnHeader5;
     }
 }
 

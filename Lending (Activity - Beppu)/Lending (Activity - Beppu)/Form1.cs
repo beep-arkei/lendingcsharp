@@ -52,51 +52,40 @@ namespace Lending__Activity___Beppu_
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            /*OleDbCommand cmd = new OleDbCommand();
-            string sqlInsert = "INSERT INTO Borrower ([BorrowerName], [Address], [MobileNum], [Messenger], [Comaker], [MonthlyIncome], [IncomeSource], [Password]) VALUES('" + NameTextBox.Text + "','" + AddressTextBox.Text + "','" + MobileTextBox.Text + "','" + MessengerTextBox.Text + "','" + ComakerTextBox.Text + "','" + IncomeTextBox.Text + "','" + SourceTextBox.Text + "','" + PasswordTextBox.Text + "')";
-            */
-          
-            string sqlInsert = "INSERT INTO Borrower ([BorrowerName], [Address], [MobileNum], [Messenger], [Comaker], [MonthlyIncome], [IncomeSource], [Password]) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            OleDbCommand cmd = new OleDbCommand(sqlInsert, conn);
-            cmd.Parameters.AddWithValue("?", NameTextBox.Text);
-            cmd.Parameters.AddWithValue("?", AddressTextBox.Text);
-            cmd.Parameters.AddWithValue("?", MobileTextBox.Text);
-            cmd.Parameters.AddWithValue("?", MessengerTextBox.Text);
-            cmd.Parameters.AddWithValue("?", ComakerTextBox.Text);
-            cmd.Parameters.AddWithValue("?", Convert.ToInt32(IncomeTextBox.Text)); // Convert to Integer
-            cmd.Parameters.AddWithValue("?", SourceTextBox.Text);
-            cmd.Parameters.AddWithValue("?", PasswordTextBox.Text);
-
-            if (NameTextBox.Text == "" || AddressTextBox.Text == "" || MobileTextBox.Text == "" || MessengerTextBox.Text == "" || ComakerTextBox.Text == "" || IncomeTextBox.Text == "" || SourceTextBox.Text == "" || PasswordTextBox.Text == "" || ConfirmPasswordTextBox.Text == "")
-            {
-                if(langEn)
-                    MessageBox.Show("Please fill-up every field.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                else
-                    MessageBox.Show("すべてのフィールドに入力してください。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            } else if (PasswordTextBox.Text != ConfirmPasswordTextBox.Text)
-            {
-                if (langEn)
-                    MessageBox.Show("Passwords do not match. Please enter password and confirm again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                else
-                    //MessageBox.Show("すべてのフィールドに入力してください。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
             try
             {
-                conn.Open();
-                cmd.Connection = conn;
-                cmd.CommandText = sqlInsert;
-                cmd.ExecuteNonQuery();
-                if (langEn)
-                    MessageBox.Show("Borrower successfully registered.", "Registration Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                else
-                    MessageBox.Show("借り手のエントリがデータベースに正常に追加されました。", "登録に成功しました", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // Define the SQL query to insert a new borrower
+                string insertQuery = "INSERT INTO Borrower (BorrowerName, Address, MobileNum, Messenger, " +
+                                     "Comaker, MonthlyIncome, IncomeSource, [Password], LoanDate, CurrentBal, OriginalLoan) " +
+                                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+                using (OleDbCommand cmd = new OleDbCommand(insertQuery, conn))
+                {
+                    // Ensure the connection is open
+                    if (conn.State != ConnectionState.Open)
+                        conn.Open();
+
+                    // Add parameters
+                    cmd.Parameters.AddWithValue("?", NameTextBox.Text);
+                    cmd.Parameters.AddWithValue("?", AddressTextBox.Text);
+                    cmd.Parameters.AddWithValue("?", MobileTextBox.Text);
+                    cmd.Parameters.AddWithValue("?", MessengerTextBox.Text);
+                    cmd.Parameters.AddWithValue("?", ComakerTextBox.Text);
+                    cmd.Parameters.AddWithValue("?", Convert.ToDecimal(IncomeTextBox.Text));
+                    cmd.Parameters.AddWithValue("?", SourceTextBox.Text);
+                    cmd.Parameters.AddWithValue("?", PasswordTextBox.Text);
+                    cmd.Parameters.AddWithValue("?", DateTime.Now.ToString("yyyy-MM-dd"));
+                    cmd.Parameters.AddWithValue("?", Convert.ToDecimal(0));
+                    cmd.Parameters.AddWithValue("?", Convert.ToDecimal(0));
+
+                    cmd.ExecuteNonQuery();
+                }
+
+                MessageBox.Show("Borrower registered successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            catch (OleDbException ex)
+            catch (Exception ex)
             {
-                MessageBox.Show("Database Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error registering borrower: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -107,68 +96,50 @@ namespace Lending__Activity___Beppu_
             }
         }
 
+
         private void SearchButton_Click(object sender, EventArgs e)
         {
-            string searchTerm = SearchTextBox.Text;
+            string searchTerm = SearchTextBox.Text.Trim();
 
             if (string.IsNullOrWhiteSpace(searchTerm))
             {
-                if (langEn)
-                    MessageBox.Show("Please enter a search term.", "Search Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                else
-                    MessageBox.Show("検索語を入力してください。", "検索エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please enter a search term.", "Search Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             try
             {
-                string searchQuery = "SELECT Code, BorrowerName, Address, MobileNum, Messenger, Comaker FROM Borrower WHERE Code LIKE ? OR BorrowerName LIKE ?";
-                OleDbCommand searchCmd = new OleDbCommand(searchQuery, conn);
+                // Query to find matching entries in Borrower table
+                string searchQuery = "SELECT Code, BorrowerName, CurrentBal, MobileNum, MonthlyIncome FROM Borrower WHERE " +
+                                     "Code LIKE ? OR BorrowerName LIKE ?";
 
+                OleDbCommand searchCmd = new OleDbCommand(searchQuery, conn);
                 searchCmd.Parameters.AddWithValue("?", "%" + searchTerm + "%");
                 searchCmd.Parameters.AddWithValue("?", "%" + searchTerm + "%");
 
                 conn.Open();
                 OleDbDataReader reader = searchCmd.ExecuteReader();
 
-                if (reader.HasRows)
-                {
-                    reader.Read();
+                // Clear previous items in ListView
+                lendeeListView.Items.Clear();
 
-                    
-                    NameTextBox.Text = reader["BorrowerName"].ToString();
-                    AddressTextBox.Text = reader["Address"].ToString();
-                    MobileTextBox.Text = reader["MobileNum"].ToString();
-                    MessengerTextBox.Text = reader["Messenger"].ToString();
-                    ComakerTextBox.Text = reader["Comaker"].ToString();
-
-                    if (langEn)
-                        MessageBox.Show("Matching entry found. First result displayed.", "Record Found", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    else
-                        MessageBox.Show("一致するエントリが見つかりました。最初の結果が表示されました。", "リストが見つかりました", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
+                while (reader.Read())
                 {
-                    NameTextBox.Text = "";
-                    AddressTextBox.Text = "";
-                    MobileTextBox.Text = "";
-                    MessengerTextBox.Text = "";
-                    ComakerTextBox.Text = "";
-                    if (langEn)
-                        MessageBox.Show("No matching records found.", "Search Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    else
-                        MessageBox.Show("一致するレコードが見つかりませんでした。", "検索結果", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                  
+                    ListViewItem item = new ListViewItem(reader["Code"].ToString()); // Code
+                    item.SubItems.Add(reader["BorrowerName"].ToString()); // Name
+                    item.SubItems.Add(reader["CurrentBal"].ToString()); // Balance
+                    item.SubItems.Add(reader["MobileNum"].ToString()); // Mobile No.
+                    item.SubItems.Add(reader["MonthlyIncome"].ToString()); // Monthly Income
+
+                    lendeeListView.Items.Add(item);
                 }
 
                 reader.Close();
+                conn.Close();
             }
             catch (Exception ex)
             {
-                if(langEn)
-                    MessageBox.Show(ex.ToString(), "Search Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                else
-                    MessageBox.Show(ex.ToString(), "検索エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error while searching: " + ex.Message, "Search Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -178,6 +149,8 @@ namespace Lending__Activity___Beppu_
                 }
             }
         }
+
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -314,7 +287,49 @@ namespace Lending__Activity___Beppu_
             
         }
 
-        
+        private void lendeeListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lendeeListView.SelectedItems.Count > 0)
+            {
+                string selectedCode = lendeeListView.SelectedItems[0].SubItems[0].Text; // Get the selected borrower's Code
+
+                try
+                {
+                    string query = "SELECT * FROM Borrower WHERE Code = ?";
+                    OleDbCommand cmd = new OleDbCommand(query, conn);
+                    cmd.Parameters.AddWithValue("?", selectedCode);
+
+                    conn.Open();
+                    OleDbDataReader reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        NameTextBox.Text = reader["BorrowerName"].ToString();
+                        AddressTextBox.Text = reader["Address"].ToString();
+                        MobileTextBox.Text = reader["MobileNum"].ToString();
+                        MessengerTextBox.Text = reader["Messenger"].ToString();
+                        ComakerTextBox.Text = reader["Comaker"].ToString();
+                        IncomeTextBox.Text = reader["MonthlyIncome"].ToString();
+                        SourceTextBox.Text = reader["IncomeSource"].ToString();
+                        PasswordTextBox.Text = reader["Password"].ToString();
+                        ConfirmPasswordTextBox.Text = reader["Password"].ToString();
+                    }
+
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error loading details: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        conn.Close();
+                    }
+                }
+            }
+        }
 
        
     }
