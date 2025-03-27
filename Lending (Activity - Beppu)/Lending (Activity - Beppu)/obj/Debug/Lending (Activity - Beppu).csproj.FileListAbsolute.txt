@@ -1,0 +1,10 @@
+c:\users\cs222a-6\documents\visual studio 2013\Projects\Lending (Activity - Beppu)\Lending (Activity - Beppu)\bin\Debug\Lending (Activity - Beppu).exe.config
+F:\Lending (Activity - Beppu)\Lending (Activity - Beppu)\bin\Debug\Lending (Activity - Beppu).exe.config
+F:\Lending (Activity - Beppu)\Lending (Activity - Beppu)\obj\Debug\Lending (Activity - Beppu).csprojResolveAssemblyReference.cache
+F:\Lending (Activity - Beppu)\Lending (Activity - Beppu)\obj\Debug\Lending__Activity___Beppu_.Form1.resources
+F:\Lending (Activity - Beppu)\Lending (Activity - Beppu)\obj\Debug\Lending__Activity___Beppu_.Properties.Resources.resources
+F:\Lending (Activity - Beppu)\Lending (Activity - Beppu)\obj\Debug\Lending (Activity - Beppu).csproj.GenerateResource.Cache
+F:\Lending (Activity - Beppu)\Lending (Activity - Beppu)\bin\Debug\Lending (Activity - Beppu).exe
+F:\Lending (Activity - Beppu)\Lending (Activity - Beppu)\bin\Debug\Lending (Activity - Beppu).pdb
+F:\Lending (Activity - Beppu)\Lending (Activity - Beppu)\obj\Debug\Lending (Activity - Beppu).exe
+F:\Lending (Activity - Beppu)\Lending (Activity - Beppu)\obj\Debug\Lending (Activity - Beppu).pdb
